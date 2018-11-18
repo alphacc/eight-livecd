@@ -266,7 +266,8 @@ EOF
 rm -f /var/lib/rpm/__db*
 releasever=$(rpm -q --qf '%{version}\n' --whatprovides system-release)
 basearch=$(uname -i)
-rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
+rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-beta
 echo "Packages within this LiveCD"
 rpm -qa
 # Note that running rpm recreates the rpm db files which aren't needed or wanted
@@ -293,6 +294,24 @@ rm -f /boot/*-rescue*
 %end
 
 %post
+
+cat >> /etc/yum.repos.d/rhel-8-beta.repo << EOF
+
+[rhel-8-for-x86_64-baseos-beta-rpms]
+name = Red Hat Enterprise Linux 8 for x86_64 - BaseOS Beta (RPMs)
+baseurl = https://downloads.redhat.com/redhat/rhel/rhel-8-beta/baseos/x86_64/
+enabled = 1
+gpgcheck = 1
+gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-beta,file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+[rhel-8-for-x86_64-appstream-beta-rpms]
+name = Red Hat Enterprise Linux 8 for x86_64 - AppStream Beta (RPMs)
+baseurl = https://downloads.redhat.com/redhat/rhel/rhel-8-beta/appstream/x86_64/
+enabled = 1
+gpgcheck = 1
+gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-beta,file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+EOF
 
 cat >> /etc/rc.d/init.d/livesys << EOF
 
@@ -357,7 +376,7 @@ EOF
 
 %packages
 @core
-@Workstation
+@Minimal Install
 anaconda
 dracut-config-generic
 dracut-live
