@@ -49,7 +49,7 @@ livemedia-creator --ks ks/el8-livemedia-minimal.ks --no-virt --resultdir  media/
 
 Alternatively, to create PXE files:
 ```
-livemedia-creator --ks ks/el8-livemedia-minimal.ks --no-virt --resultdir  /tmp/rhel8 --project RHEL-8-beta-live --make-pxe-live --releasever 8 --volid RHEL-8-beta-live --title RHEL-beta-live
+livemedia-creator --ks ks/el8-livemedia-minimal.ks --no-virt --resultdir  media/el8 --project RHEL-8-beta-live --make-pxe-live --releasever 8 --volid RHEL-8-beta-live --title RHEL-beta-live
 ```
 
 ## Debugging
